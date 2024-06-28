@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Paddle : MonoBehaviour
@@ -12,14 +13,18 @@ public class Paddle : MonoBehaviour
     void Start()
     {
         _rb = gameObject.GetComponent<Rigidbody2D>();
-        _speed = 1.5f;
+        _speed = 3.5f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        _inputVeritcal = Input.GetAxisRaw("Vertical");
+        // _inputVeritcal = Input.GetAxisRaw("Mouse Y");
+        _inputVeritcal = Input.mouseScrollDelta.y;
 
-        _rb.AddForce(new Vector2(0f, _inputVeritcal * _speed));
+        if (_inputVeritcal != 0) {
+            Debug.Log($"scroll delta = {_inputVeritcal}");
+            _rb.AddForce(new Vector2(0f, _inputVeritcal * _speed));
+        }
     }
 }
