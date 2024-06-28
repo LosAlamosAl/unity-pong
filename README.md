@@ -22,3 +22,7 @@ git branch -M main
 git remote add origin git@github.com:YourGitHubID/your-repo-name.git
 git push -u origin main
 ```
+
+Unity tool's "Save Project" menu item doesn't update scene files.
+Closing project window brings up "Save" dialog. That save **does**
+update the scene files (and Git will now see them as modified).
