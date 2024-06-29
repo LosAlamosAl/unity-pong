@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Paddle : MonoBehaviour
+public class PaddleLeft : MonoBehaviour
 {
     private Rigidbody2D _rb;
     private float _inputVeritcal;
