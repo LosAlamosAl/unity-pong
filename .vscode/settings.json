@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "unity-pong.sln"
+    "dotnet.defaultSolution": "unity-pong.sln",
+    "dotnet.codeLens.enableReferencesCodeLens": false
 }
