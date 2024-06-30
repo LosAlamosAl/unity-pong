@@ -26,3 +26,29 @@ git push -u origin main
 Unity tool's "Save Project" menu item doesn't update scene files.
 Closing project window brings up "Save" dialog. That save **does**
 update the scene files (and Git will now see them as modified).
+
+### Using Mouse Scroll Wheel
+Gave up on using the mouse scrollwheel to move the paddle. There
+are too many platoform dependent issues, especially when an
+"acceleration" is set on the scroll. In this case many events
+can be sent per frame. MacOS is probably different than Windows
+and would necessitate platform specific _speed_ variables.
+
+It's possible to use absolute mouse positions and move the
+paddle towards that position. I may try that at some point.
+
+This **did not** work well (putting everything in `Update`
+worked fine):
+```cs
+    private void Update()
+    {
+        _inputVeritcal = Input.mouseScrollDelta.y;
+        if (_inputVeritcal != 0) Debug.Log($"scroll delta = {_inputVeritcal}");
+    }
+
+    private void FixedUpdate() {
+        if (_inputVeritcal != 0) {
+            _rb.AddForce(new Vector2(0f, _inputVeritcal * _speed));
+        }
+    }
+```
