@@ -19,6 +19,6 @@ public class FpsCounter : MonoBehaviour
         fps = 1f / Time.smoothDeltaTime;
         if(Time.timeSinceLevelLoad < 0.1f) smoothFps = fps;
         smoothFps += (fps - smoothFps) * Mathf.Clamp(Time.deltaTime * SmoothSpeed, 0, 1);
-        text.text = ((int)smoothFps).ToString()+" fps";
+        text.text = ((int)smoothFps).ToString() + " fps";
     }
 }

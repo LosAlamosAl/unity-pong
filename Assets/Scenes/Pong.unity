@@ -397,6 +397,7 @@ GameObject:
   - component: {fileID: 877259579}
   - component: {fileID: 877259582}
   - component: {fileID: 877259583}
+  - component: {fileID: 877259584}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -555,6 +556,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfede43a30867460a8db4e643fb294d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &877259584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877259578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d542032e4f4434f6ba051d9b950e3609, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1099223920
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,7 +581,6 @@ GameObject:
   - component: {fileID: 1099223924}
   - component: {fileID: 1099223923}
   - component: {fileID: 1099223925}
-  - component: {fileID: 1099223926}
   m_Layer: 0
   m_Name: PaddleLeft
   m_TagString: Untagged
@@ -728,18 +740,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &1099223926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1099223920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d542032e4f4434f6ba051d9b950e3609, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1148269477
 GameObject:
   m_ObjectHideFlags: 0

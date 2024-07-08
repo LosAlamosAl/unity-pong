@@ -1,5 +1,6 @@
 # Learn Unity by Building Pong
 
+Using some, if not most, infor from this [YouTube video](https://youtu.be/AcpaYq0ihaM?si=GIpdKO1LQGol7Rn9).
 ## Initial Setup
 
 Create a new Unity 2D (using built-in rendering pipeline). Make sure it's set up for VScode.
@@ -25,7 +26,8 @@ git push -u origin main
 
 Unity tool's "Save Project" menu item doesn't update scene files.
 Closing project window brings up "Save" dialog. That save **does**
-update the scene files (and Git will now see them as modified).
+update the scene files (and Git will now see them as modified). If
+you just do a normal "Save" everything is saved.
 
 ### Using Mouse Scroll Wheel
 Gave up on using the mouse scrollwheel to move the paddle. There
