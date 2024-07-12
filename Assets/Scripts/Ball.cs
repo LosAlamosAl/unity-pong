@@ -39,8 +39,10 @@ public class Ball : MonoBehaviour {
     }
 
     private void DrawProjectedPath() {
-        var dir = (transform.position - _lastPos).normalized;  // initial direction
-        var origin = _lastPos + dir;  // initial ray origin (fudged outside ball)
+        var dir = _rb.velocity.normalized;  // initial direction
+        // Don't have to fudge the Ball's initial position because it's assigned to
+        // the "Ignore Raycast" layer.
+        var origin = _rb.position;
         RaycastHit2D hit;
         do {
             hit = Physics2D.Raycast(origin, dir);
