@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.UIElements;
 
 public class Ball : MonoBehaviour {
     private Rigidbody2D _rb;
     private readonly float _speed = 200.0f;
     private int _framesSince;
-    private Vector3 _lastPos;
     private bool _doRaycast = true;
 
     void Awake() {
@@ -18,7 +18,6 @@ public class Ball : MonoBehaviour {
     void Start() {
         _framesSince = 0;
         AddStartingForce();
-        _lastPos = transform.position;
     }
 
     void FixedUpdate() {
@@ -27,7 +26,6 @@ public class Ball : MonoBehaviour {
             _doRaycast = false;
         }
         _framesSince++;
-        _lastPos = transform.position;
     }
 
     private void AddStartingForce() {
@@ -45,12 +43,12 @@ public class Ball : MonoBehaviour {
         var origin = _rb.position;
         RaycastHit2D hit;
         do {
-            hit = Physics2D.Raycast(origin, dir);
+            hit = Physics2D.Raycast(origin, dir);  // hit point of ray/collider
             if (hit.collider == null) break; 
             PrintHitInfo(hit);
             Debug.DrawLine(origin, hit.point, Color.yellow, 5);
+            origin = NextOrigin(hit, dir);
             dir = Vector2.Reflect(dir, hit.normal);
-            origin = hit.point + ((Vector2)dir * .01f);  // fudge (fix this)
         } while (hit.collider.name != "LeftWall");
     }
 
@@ -60,5 +58,24 @@ public class Ball : MonoBehaviour {
         debug += $"{hit.point}\n";
         debug += $"{hit.normal}\n";
         print(debug);
+    }
+
+    private Vector2 NextOrigin(RaycastHit2D hit, Vector2 dir) {
+        var axis = hit.collider.name switch {
+            "LeftWall" or "RightWall" or "Paddle" => new Vector2(0, Mathf.Sign(dir.y)),
+            "TopWall" or "BottomWall" => new Vector2(Mathf.Sign(dir.x), 0),
+            _ => throw new System.ArgumentException("Impossible collider name!"),
+        };
+        var theta = Vector2.Angle(axis, dir);
+        var halfSize = GetComponent<BoxCollider2D>().bounds.size.y / 2.0f;
+        var dist = halfSize / Mathf.Sin(theta * Mathf.Deg2Rad);
+        var nextOrigin = hit.point + (dir * -1).normalized * dist;
+        print($"axis: {axis}");
+        print($"theta: {theta}");
+        print($"halfSize: {halfSize}");
+        print($"dist: {dist}");
+        print($"origin: {hit.point}");
+        print($"nextOrigin: {nextOrigin}");
+        return nextOrigin;
     }
 }
