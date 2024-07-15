@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -10,14 +11,24 @@ public class Ball : MonoBehaviour {
     private readonly float _speed = 200.0f;
     private int _framesSince;
     private bool _doRaycast;
+    [SerializeField] GameObject _boxPrefab;
+    List<GameObject> _boxes;
 
     public void ResetRaycast() {
         _framesSince = 0;
         _doRaycast = true;
     }
 
+    public void ResetGeom() {
+        foreach (var box in _boxes) {
+            GameObject.Destroy(box);
+        }
+        _boxes.RemoveAll(box => true);
+    }
+
     void Awake() {
         _rb = GetComponent<Rigidbody2D>();
+        _boxes = new List<GameObject>();
     }
 
     void Start() {
@@ -61,6 +72,8 @@ public class Ball : MonoBehaviour {
             // above the surface of the collider).
             Debug.DrawLine(origin, hit.point, Color.yellow, 8);
             origin = NextOrigin(hit, dir);
+            GameObject box = Instantiate(_boxPrefab, origin, Quaternion.identity);
+            _boxes.Add(box);
             dir = Vector2.Reflect(dir, hit.normal);
         } while (hit.collider.name != "LeftWall" && hit.collider.name != "PaddleLeft");
     }

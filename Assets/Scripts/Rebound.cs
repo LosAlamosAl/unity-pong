@@ -17,6 +17,7 @@ public class Rebound : MonoBehaviour {
             // PrintCollisionInfo(col, i);
             if (col.collider.name == "LeftWall" || col.collider.name == "PaddleLeft") {
                 _ball.ResetRaycast();
+                _ball.ResetGeom();
             }
         }
     }
