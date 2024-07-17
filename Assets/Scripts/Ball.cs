@@ -12,7 +12,10 @@ public class Ball : MonoBehaviour {
     private int _framesSince;
     private bool _doRaycast;
     [SerializeField] GameObject _boxPrefab;
+    [SerializeField] GameObject _ballerPrefab;
     List<GameObject> _boxes;
+    List<GameObject> _ballers;
+    List<ContactPoint2D> _contacts;
 
     public void ResetRaycast() {
         _framesSince = 0;
@@ -23,12 +26,18 @@ public class Ball : MonoBehaviour {
         foreach (var box in _boxes) {
             GameObject.Destroy(box);
         }
+        foreach (var baller in _ballers) {
+            GameObject.Destroy(baller);
+        }
         _boxes.RemoveAll(box => true);
+        _boxes.RemoveAll(baller => true);
     }
 
     void Awake() {
         _rb = GetComponent<Rigidbody2D>();
         _boxes = new List<GameObject>();
+        _ballers = new List<GameObject>();
+        _contacts = new List<ContactPoint2D>();
     }
 
     void Start() {
@@ -49,7 +58,7 @@ public class Ball : MonoBehaviour {
         float y = Random.value < 0.5f ? Random.Range(-1.0f, -0.5f) :
                                         Random.Range( 0.5f,  1.0f);
 
-        _rb.AddForce(new Vector2(x, y) * _speed);
+        _rb.AddForce(new Vector2(x, y).normalized * _speed);
     }
 
     // Draws the projected path of the ball until its projection
@@ -107,5 +116,26 @@ public class Ball : MonoBehaviour {
         //print($"origin: {hit.point}");
         //print($"nextOrigin: {nextOrigin}");
         return nextOrigin;
+    }
+
+    private void OnCollisionEnter2D(Collision2D col) {
+        GameObject baller = Instantiate(_ballerPrefab, gameObject.transform.position, Quaternion.identity);
+        _ballers.Add(baller);
+        // PrintCollisionInfo(col, i);
+        if (col.collider.name == "LeftWall" || col.collider.name == "PaddleLeft") {
+            ResetRaycast();
+            ResetGeom();
+        }
+    }
+
+    private void PrintCollisionInfo(Collision2D col, int i) {
+            var debug = $"collision #{i}---------\n";
+            debug += $"collider.name: {col.collider.name}\n";
+            debug += $"this.name: {gameObject.name}\n";
+            debug += $"world contact: {col.GetContact(i).point}\n";
+            var _trans = gameObject.transform;
+            debug += $"local contact:{_trans.InverseTransformPoint(col.GetContact(i).point)}\n";
+            debug += $"local normal: {col.GetContact(i).normal}\n";
+            Debug.Log(debug);
     }
 }
